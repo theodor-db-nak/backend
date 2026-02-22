@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Presistence\EFC\Entities\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Presistence\" />
   </ItemGroup>
 
   <ItemGroup>
