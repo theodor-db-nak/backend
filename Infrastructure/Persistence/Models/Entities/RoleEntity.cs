@@ -8,4 +8,5 @@ public sealed class RoleEntity
     public required DateTime CreatedAt { get; set; }
     public required DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
+    public ICollection<ProfileRoleEntity> ProfileRoles { get; set; } = [];
 }

@@ -1,3 +1,4 @@
+using Infrastructure.Extensions;
 using PresentationApi.EndPoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddCors();
 builder.Services.AddValidation();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
