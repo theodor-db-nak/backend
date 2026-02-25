@@ -1,6 +1,6 @@
 ﻿using Domain.Models.ValueObjects;
 
-namespace Infrastructure.Persistence.Models.Entities;
+namespace Infrastructure.Persistence.Models.Entities.Addresses;
 
 public sealed class ProfileAddressEntity
 {

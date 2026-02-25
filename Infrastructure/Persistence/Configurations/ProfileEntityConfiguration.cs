@@ -1,4 +1,6 @@
-﻿using Infrastructure.Persistence.Models.Entities;
+﻿using Infrastructure.Persistence.Configurations.Extensions;
+using Infrastructure.Persistence.Models.Entities;
+using Infrastructure.Persistence.Models.Entities.Addresses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,6 +14,7 @@ public sealed class ProfileEntityConfiguration : IEntityTypeConfiguration<Profil
         {
             t.HasCheckConstraint("CK_Profiles_Email_NotEmpty", "LEN([Email]) > 0");
             t.HasCheckConstraint("CK_Profiles_PhoneNumber_NotEmpty", "[PhoneNumber] IS NULL OR LEN([PhoneNumber]) > 0");
+            t.HasCheckConstraint("CK_Profiles_Dates", "[ModifiedAt] >= [CreatedAt]");
         });
 
         e.HasKey(p => p.Id);
@@ -27,7 +30,7 @@ public sealed class ProfileEntityConfiguration : IEntityTypeConfiguration<Profil
             .HasMaxLength(100)
             .IsRequired();
 
-        e.Property(x => x.Email)
+        e.Property(p => p.Email)
             .HasMaxLength(320)
             .IsRequired()
             .IsUnicode(false);
@@ -41,19 +44,7 @@ public sealed class ProfileEntityConfiguration : IEntityTypeConfiguration<Profil
             .IsRequired()
             .IsUnicode(false);
 
-        e.Property(p => p.ModifiedAt)
-            .HasColumnType("datetime2(0)")
-            .HasDefaultValueSql("SYSUTCDATETIME()")
-            .IsRequired();
-
-        e.Property(p => p.CreatedAt)
-          .HasColumnType("datetime2(0)")
-          .HasDefaultValueSql("SYSUTCDATETIME()")
-          .IsRequired();
-
-        e.Property(p => p.RowVersion)
-            .IsRowVersion()
-            .IsConcurrencyToken();
+        e.ConfigureAuditableEntity();
 
         e.HasIndex(p => p.Email)
             .IsUnique();
@@ -67,6 +58,17 @@ public sealed class ProfileEntityConfiguration : IEntityTypeConfiguration<Profil
 
         e.HasMany(p => p.ProfileRoles)
             .WithOne(pr => pr.Profile)
-            .HasForeignKey(pr => pr.ProfileId);
+            .HasForeignKey(pr => pr.ProfileId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        e.HasMany(p => p.CourseProfiles)
+            .WithOne(cp => cp.Profile)
+            .HasForeignKey(cp => cp.ProfileId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        e.HasMany(p => p.ClassProfiles)
+            .WithOne(cp => cp.Profile)
+            .HasForeignKey(cp => cp.ProfileId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

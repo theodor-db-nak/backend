@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Persistence.Models.Entities;
+﻿namespace Infrastructure.Persistence.Models.Entities.Roles;
 
 public sealed class RoleEntity
 {
@@ -9,4 +9,5 @@ public sealed class RoleEntity
     public required DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
     public ICollection<ProfileRoleEntity> ProfileRoles { get; set; } = [];
+    public ICollection<RolePermissionEntity> RolePermissions { get; set; } = []; 
 }
