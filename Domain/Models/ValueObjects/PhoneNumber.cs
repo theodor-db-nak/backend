@@ -6,18 +6,23 @@ namespace Domain.Models.ValueObjects;
 public partial record PhoneNumber
 {
     public string Value { get; init; }
+    private PhoneNumber() => Value = null!;
+    private PhoneNumber(string value) => Value = value;
+
 
     [GeneratedRegex(@"^\+?[1-9]\d{1,14}$")]
     private static partial Regex PhoneRegex();
-
-    private PhoneNumber(string value) => Value = value;
-
+    
     public static PhoneNumber Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new DomainValidationException("Phone number cannot be empty.");
+            return null!;
 
-        var cleaned = value.Replace(" ", "").Replace("-", "");
+        var cleaned = value
+            .Replace(" ", "")
+            .Replace("-", "")
+            .Replace("(", "")
+            .Replace(")", "");
 
         if (!PhoneRegex().IsMatch(cleaned))
             throw new DomainValidationException("Invalid phone number format.");
@@ -25,5 +30,7 @@ public partial record PhoneNumber
         return new PhoneNumber(cleaned);
     }
 
-    public override string ToString() => Value;
+    public static implicit operator string(PhoneNumber phone) => phone.Value;
+
+    public static implicit operator PhoneNumber(string value) => Create(value);
 }
