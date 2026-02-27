@@ -1,3 +1,4 @@
+using Application.Extensions;
 using Infrastructure.Extensions;
 using PresentationApi.EndPoints;
 
@@ -10,6 +11,7 @@ builder.Services.AddValidation();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
+builder.Services.AddApplication(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
