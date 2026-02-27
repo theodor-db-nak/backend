@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Exceptions;
+using Domain.Common.Validation;
 using System.Text.RegularExpressions;
 
 namespace Domain.Models.ValueObjects;
@@ -14,8 +15,7 @@ public partial record Email
     
     public static Email Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new DomainValidationException("Email cannot be empty.");
+        Guard.AgainstInvalidStr(value, 320, "Email");
 
         var trimmedValue = value.Trim().ToLower();
 

@@ -1,5 +1,4 @@
-﻿using Domain.Profiles.Repositories;
-using Infrastructure.Persistence.Contexts;
+﻿using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

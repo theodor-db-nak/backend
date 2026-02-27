@@ -9,8 +9,8 @@ public sealed class CourseEventEntity
     public required Guid EventLocationId { get; set; }
     public required DateTime StartTime { get; set;  }
     public required DateTime EndTime { get; set; }
-    public required DateTime CreatedAt { get; set; }
-    public required DateTime? ModifiedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
     public EventLocationEntity EventLocation { get; set; } = null!;
     public CourseEntity Course { get; set; } = null!;

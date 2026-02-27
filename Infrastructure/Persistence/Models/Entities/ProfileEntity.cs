@@ -14,8 +14,8 @@ public sealed class ProfileEntity
     public required Email Email { get; set; }
     public required string Password { get; set; }
     public PhoneNumber? PhoneNumber { get; set; }
-    public required DateTime CreatedAt { get; set; }
-    public required DateTime ModifiedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
     public ProfileAddressEntity? Address { get; set; }
     public ICollection<ProfileRoleEntity> ProfileRoles { get; set; } = [];

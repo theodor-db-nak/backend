@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using Domain.Models.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations.Extensions;
 
@@ -9,14 +10,16 @@ public static class ModelBuilderExtensions
     public static void ConfigureAuditableEntity<T>(this EntityTypeBuilder<T> e)
         where T : class
     {
-        e.Property("CreatedAt") 
+        e.Property("CreatedAt")
             .HasColumnType("datetime2(0)")
             .HasDefaultValueSql("SYSUTCDATETIME()")
-            .IsRequired();
+            .ValueGeneratedOnAdd()
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
         e.Property("ModifiedAt")
             .HasColumnType("datetime2(0)")
             .HasDefaultValueSql("SYSUTCDATETIME()")
+            .ValueGeneratedOnAddOrUpdate()
             .IsRequired();
 
         e.Property("RowVersion")

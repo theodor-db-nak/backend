@@ -6,7 +6,7 @@ public sealed class EventLocationEntity
     public required string Name { get; set; }
     public int Seats { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public required DateTime? ModifiedAt { get; set; }
+    public required DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
     public ICollection<CourseEventEntity> CourseEvents { get; set; } = [];
 }
