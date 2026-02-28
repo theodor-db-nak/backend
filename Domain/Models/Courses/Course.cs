@@ -2,10 +2,10 @@
 
 namespace Domain.Models.Courses;
 
-public sealed class CourseModel
+public sealed class Course
 {
 
-    public CourseModel(Guid id, string name)
+    public Course(Guid id, string name)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
 

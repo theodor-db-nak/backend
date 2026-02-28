@@ -3,9 +3,9 @@ using Domain.Common.Validation;
 
 namespace Domain.Models.Permissions;
 
-public sealed class PermissionModel
+public sealed class Permission
 {
-    public PermissionModel(Guid id, string name, string? description)
+    public Permission(Guid id, string name, string? description)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
 

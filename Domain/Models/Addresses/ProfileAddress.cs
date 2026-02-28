@@ -4,9 +4,9 @@ using Domain.Models.ValueObjects;
 
 namespace Domain.Models.Addresses;
 
-public sealed class AddressModel
+public sealed class ProfileAddress
 {
-    public AddressModel(Guid id, Guid profileId, Address address)
+    public ProfileAddress(Guid id, Guid profileId, Address address)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
         Guard.AgainstEmptyGuid(profileId, "ProfileId cannot be empty.");

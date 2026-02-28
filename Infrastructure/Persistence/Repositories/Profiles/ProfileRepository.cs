@@ -16,9 +16,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories.Profiles;
 
-public sealed class ProfileRepository(CourseOnlineDbContext context) : RepositoryBase<ProfileModel, Guid, ProfileEntity, CourseOnlineDbContext>(context), IProfileRepository
+public sealed class ProfileRepository(CourseOnlineDbContext context) : RepositoryBase<Profile, Guid, ProfileEntity, CourseOnlineDbContext>(context), IProfileRepository
 {
-    public override async Task<ProfileModel?> GetByIdAsync(Guid id, CancellationToken ct)
+    public override async Task<Profile?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         var entity = await Set
             .Include(p => p.Address)
@@ -29,7 +29,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         return entity is null ? null : ToModel(entity);
     }
-    public override async Task<IReadOnlyList<ProfileModel>> GetAllAsync(CancellationToken ct = default)
+    public override async Task<IReadOnlyList<Profile>> GetAllAsync(CancellationToken ct = default)
     {
         var entities = await Set
         .AsNoTracking()
@@ -41,7 +41,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         return [.. entities.Select(ToModel)];
     }
-    public override async Task<ProfileModel?> UpdateAsync(Guid id, ProfileModel model, CancellationToken ct = default)
+    public override async Task<Profile?> UpdateAsync(Guid id, Profile model, CancellationToken ct = default)
     {
         try
         {
@@ -95,7 +95,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
             return false;
         }
     }
-    public async Task<ProfileModel?> GetByEmailAsync(Email email, CancellationToken ct)
+    public async Task<Profile?> GetByEmailAsync(Email email, CancellationToken ct)
     {
         var entity = await Set
                 .AsNoTracking()
@@ -107,7 +107,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         return entity is null ? default : ToModel(entity);
     }
-    public async Task<IEnumerable<ProfileModel>> SearchByNameRawSqlAsync(string searchTerm, CancellationToken ct)
+    public async Task<IEnumerable<Profile>> SearchByNameRawSqlAsync(string searchTerm, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(searchTerm)) return [];
 
@@ -133,7 +133,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         return entities.Select(ToModel);
     }
-    public override async Task<ProfileModel?> AddAsync(ProfileModel model, CancellationToken ct = default)
+    public override async Task<Profile?> AddAsync(Profile model, CancellationToken ct = default)
     {
         try
         {
@@ -150,7 +150,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
             return default;
         }
     }
-    protected override ProfileEntity ToEntity(ProfileModel profile)
+    protected override ProfileEntity ToEntity(Profile profile)
     {
         var entity = new ProfileEntity
         {
@@ -187,9 +187,9 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
         return entity;
     }
 
-    protected override ProfileModel ToModel(ProfileEntity entity)
+    protected override Profile ToModel(ProfileEntity entity)
     {
-        AddressModel? addressModel = null;
+        ProfileAddress? addressModel = null;
 
         if (entity.Address is not null)
         {
@@ -199,10 +199,10 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
                 entity.Address.Address.PostalCode,
                 entity.Address.Address.Country);
 
-            addressModel = new AddressModel(entity.Address.Id, entity.Address.ProfileId, addressValues);
+            addressModel = new ProfileAddress(entity.Address.Id, entity.Address.ProfileId, addressValues);
         }
 
-        var profile = new ProfileModel(
+        var profile = new Profile(
             entity.Id,
             entity.FirstName,
             entity.LastName,
@@ -214,15 +214,15 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         foreach (var pr in entity.ProfileRoles)
             if (pr.Role != null)
-                profile.AddRole(new RoleModel(pr.Role.Id, pr.Role.Name, pr.Role.Description));
+                profile.AddRole(new Role(pr.Role.Id, pr.Role.Name, pr.Role.Description));
 
         foreach (var cp in entity.ClassProfiles)
             if (cp.Class != null)
-                profile.AddClass(new ClassModel(cp.Class.Id, cp.Class.Name, cp.Class.Seats));
+                profile.AddClass(new Class(cp.Class.Id, cp.Class.Name, cp.Class.Seats));
 
         foreach (var cp in entity.CourseProfiles)
             if (cp.Course != null)
-                profile.AddCourse(new CourseModel(cp.Course.Id, cp.Course.Name));
+                profile.AddCourse(new Course(cp.Course.Id, cp.Course.Name));
 
         return profile;
     }

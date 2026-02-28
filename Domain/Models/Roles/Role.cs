@@ -4,10 +4,10 @@ using Domain.Models.Permissions;
 
 namespace Domain.Models.Roles;
 
-public sealed class RoleModel
+public sealed class Role
 {
-    private readonly List<PermissionModel> _permissions = [];
-    public RoleModel(Guid id, string name ,string? description)
+    private readonly List<Permission> _permissions = [];
+    public Role(Guid id, string name ,string? description)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
 
@@ -20,7 +20,7 @@ public sealed class RoleModel
     public Guid Id { get; private init; }
     public string Name { get; private set; }
     public string? Description { get; private set; }
-    public IReadOnlyCollection<PermissionModel> Permissions => _permissions.AsReadOnly();
+    public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
 
     public void Update(string name, string? description)
     {
@@ -37,7 +37,7 @@ public sealed class RoleModel
         Description = trimmedDescription;
     }
 
-    public void AddPermission(PermissionModel permission)
+    public void AddPermission(Permission permission)
     {
         ArgumentNullException.ThrowIfNull(permission);
 

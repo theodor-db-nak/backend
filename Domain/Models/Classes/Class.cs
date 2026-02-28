@@ -3,9 +3,9 @@ using Domain.Common.Validation;
 
 namespace Domain.Models.Classes;
 
-public sealed class ClassModel
+public sealed class Class
 {
-    public ClassModel(Guid id, string name, int seats)
+    public Class(Guid id, string name, int seats)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
 

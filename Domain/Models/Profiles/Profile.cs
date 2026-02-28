@@ -8,14 +8,14 @@ using Domain.Models.ValueObjects;
 
 namespace Domain.Models.Profiles;
 
-public sealed class ProfileModel
+public sealed class Profile
 {
 
-    private readonly List<RoleModel> _roles = [];
-    private readonly List<ClassModel> _classes= [];
-    private readonly List<CourseModel> _courses = [];
+    private readonly List<Role> _roles = [];
+    private readonly List<Class> _classes= [];
+    private readonly List<Course> _courses = [];
 
-    public ProfileModel(Guid id, string firstName, string lastName, Email email, string password, PhoneNumber? phoneNumber, AddressModel address)
+    public Profile(Guid id, string firstName, string lastName, Email email, string password, PhoneNumber? phoneNumber, ProfileAddress address)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
 
@@ -42,22 +42,22 @@ public sealed class ProfileModel
     public Email Email { get; private set; }
     public string Password { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
-    public AddressModel Address { get; private set; }
-    public IReadOnlyCollection<RoleModel> Roles => _roles.AsReadOnly();
-    public IReadOnlyCollection<ClassModel> Classes => _classes.AsReadOnly();
-    public IReadOnlyCollection<CourseModel> Courses => _courses.AsReadOnly();
+    public ProfileAddress Address { get; private set; }
+    public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
+    public IReadOnlyCollection<Class> Classes => _classes.AsReadOnly();
+    public IReadOnlyCollection<Course> Courses => _courses.AsReadOnly();
 
-    public void AddCourse(CourseModel courseModel)
+    public void AddCourse(Course courseModel)
         => _courses.UpsertOrRemove(courseModel, c => c.Id == courseModel.Id, isAdding: true);
     public void RemoveCourse(Guid courseId)
         => _courses.UpsertOrRemove(null, c => c.Id == courseId, isAdding: false);
 
-    public void AddClass(ClassModel classModel)
+    public void AddClass(Class classModel)
         => _classes.UpsertOrRemove(classModel, c => c.Id == classModel.Id, isAdding: true);
     public void RemoveClass(Guid classId)
         => _classes.UpsertOrRemove(null, c => c.Id == classId, isAdding: false);
 
-    public void AddRole(RoleModel roleModel)
+    public void AddRole(Role roleModel)
         => _roles.UpsertOrRemove(roleModel, r => r.Id == roleModel.Id, isAdding: true);
 
     public void RemoveRole(Guid roleId)
