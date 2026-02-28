@@ -10,9 +10,9 @@ public static class MemoryCacheExtensions
             return existing;
 
         using var entry = cache.CreateEntry(key);
-        var created = await action(entry, ct);
-        entry.Value = created;
+        existing = await action(entry, ct);
+        entry.Value = existing;
 
-        return created;
+        return existing;
     }
 }
