@@ -35,7 +35,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -66,7 +66,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -120,7 +120,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -179,7 +179,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -237,7 +237,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -291,7 +291,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -341,7 +341,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -396,7 +396,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -444,7 +444,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -499,7 +499,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -510,8 +510,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -575,7 +575,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -637,7 +637,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 

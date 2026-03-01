@@ -6,6 +6,8 @@ public static class ApiEndpoints
     {
         var api = app.MapGroup("/api");
 
+        api.MapProfileEndpoint();
+
         return app;
     }
 }

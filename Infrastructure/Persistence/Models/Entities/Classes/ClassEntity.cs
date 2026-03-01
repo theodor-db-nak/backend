@@ -9,8 +9,8 @@ public sealed class ClassEntity
     public required Guid ClassLocationId { get; set; }
     public required string Name { get; set; }
     public int Seats { get; set; }
-    public required DateTime CreatedAt { get; set; }
-    public required DateTime ModifiedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
     public byte[] RowVersion { get; set; } = null!;
     public ClassLocationEntity ClassLocation { get; set; } = null!;
     public ProgramEntity Program { get; set; } = null!;

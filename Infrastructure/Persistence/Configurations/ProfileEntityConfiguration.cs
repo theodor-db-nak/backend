@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence.Configurations.Extensions;
+﻿using Domain.Models.ValueObjects;
+using Infrastructure.Persistence.Configurations.Extensions;
 using Infrastructure.Persistence.Models.Entities;
 using Infrastructure.Persistence.Models.Entities.Addresses;
 using Microsoft.EntityFrameworkCore;
@@ -31,12 +32,19 @@ public sealed class ProfileEntityConfiguration : IEntityTypeConfiguration<Profil
             .IsRequired();
 
         e.Property(p => p.Email)
+            .HasConversion(
+            email => email.Value,     
+            value => Email.Create(value))
             .HasMaxLength(320)
             .IsRequired()
             .IsUnicode(false);
 
         e.Property(p => p.PhoneNumber)
-            .HasMaxLength(16)
+            .HasConversion(
+                p => p != null ? p.Value : null,
+                v => v != null ? PhoneNumber.Create(v) : null
+            )
+            .HasMaxLength(20)
             .IsRequired(false);
 
         e.Property(p => p.Password)
