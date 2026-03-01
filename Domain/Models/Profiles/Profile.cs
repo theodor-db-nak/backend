@@ -48,20 +48,20 @@ public sealed class Profile
     public IReadOnlyCollection<Course> Courses => _courses.AsReadOnly();
 
     public void AddCourse(Course courseModel)
-        => _courses.UpsertOrRemove(courseModel, c => c.Id == courseModel.Id, isAdding: true);
+        => _courses.AddOrRemove(courseModel, c => c.Id == courseModel.Id, isAdding: true);
     public void RemoveCourse(Guid courseId)
-        => _courses.UpsertOrRemove(null, c => c.Id == courseId, isAdding: false);
+        => _courses.AddOrRemove(null, c => c.Id == courseId, isAdding: false);
 
     public void AddClass(Class classModel)
-        => _classes.UpsertOrRemove(classModel, c => c.Id == classModel.Id, isAdding: true);
+        => _classes.AddOrRemove(classModel, c => c.Id == classModel.Id, isAdding: true);
     public void RemoveClass(Guid classId)
-        => _classes.UpsertOrRemove(null, c => c.Id == classId, isAdding: false);
+        => _classes.AddOrRemove(null, c => c.Id == classId, isAdding: false);
 
     public void AddRole(Role roleModel)
-        => _roles.UpsertOrRemove(roleModel, r => r.Id == roleModel.Id, isAdding: true);
+        => _roles.AddOrRemove(roleModel, r => r.Id == roleModel.Id, isAdding: true);
 
     public void RemoveRole(Guid roleId)
-        => _roles.UpsertOrRemove(null, r => r.Id == roleId, isAdding: false);
+        => _roles.AddOrRemove(null, r => r.Id == roleId, isAdding: false);
 
     public void UpdateProfile(string firstName, string lastName, PhoneNumber? phoneNumber)
     {

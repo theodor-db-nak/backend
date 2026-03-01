@@ -2,7 +2,7 @@
 
 public static class CollectionExtensions
 {
-    public static void UpsertOrRemove<T>(
+    public static void AddOrRemove<T>(
     this ICollection<T> collection,
     T? item, 
     Func<T, bool> predicate,

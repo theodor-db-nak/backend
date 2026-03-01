@@ -107,7 +107,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         return entity is null ? default : ToModel(entity);
     }
-    public async Task<IEnumerable<Profile>> SearchByNameRawSqlAsync(string searchTerm, CancellationToken ct)
+    public async Task<IReadOnlyList<Profile>> SearchByNameRawSqlAsync(string searchTerm, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(searchTerm)) return [];
 
@@ -116,7 +116,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
         var entities = await Set
             .FromSqlInterpolated($@"
             SELECT p.* FROM Profiles p
-            LEFT JOIN Addresses a ON p.Id = a.ProfileId
+            LEFT JOIN ProfileAddresses a ON p.Id = a.ProfileId
             LEFT JOIN ProfileRoles pr ON p.Id = pr.ProfileId
             LEFT JOIN ClassProfiles cp ON p.Id = cp.ProfileId
             LEFT JOIN CourseProfiles cup ON p.Id = cup.ProfileId
@@ -131,7 +131,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
             .Include(p => p.CourseProfiles)
             .ToListAsync(ct);
 
-        return entities.Select(ToModel);
+        return [.. entities.Select(ToModel)];
     }
     public override async Task<Profile?> AddAsync(Profile model, CancellationToken ct = default)
     {

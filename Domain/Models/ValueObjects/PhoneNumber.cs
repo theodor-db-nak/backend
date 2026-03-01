@@ -10,7 +10,7 @@ public partial record PhoneNumber
     private PhoneNumber(string value) => Value = value;
 
 
-    [GeneratedRegex(@"^\+?[1-9]\d{1,14}$")]
+    [GeneratedRegex(@"^\+?[0-9]\d{1,14}$")]
     private static partial Regex PhoneRegex();
     
     public static PhoneNumber Create(string value)

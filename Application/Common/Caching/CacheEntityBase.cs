@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Application.Extensions.Caching;
+﻿using Application.Extensions.Caching;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace Application.Common.Caching;
@@ -38,7 +38,9 @@ public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICache
         foreach (var (prop, val) in GetCachedProperties(entity))
         {
             if (string.IsNullOrWhiteSpace(val)) continue;
-            cache.Set(IndexKey(prop, val), id, EntityOptions);
+
+            var normalizedVal = NormalizeCachedPropertyValue(val);
+            cache.Set(IndexKey(prop, normalizedVal), id, EntityOptions);
         }
 
         cache.Remove(AllKey);
@@ -55,7 +57,9 @@ public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICache
 
     public virtual async Task<TEntity?> GetByPropertyAsync(string prop, string val, Func<CancellationToken, Task<TEntity?>> factory, CancellationToken ct)
     {
-        var idxKey = IndexKey(prop, val);
+        var normalizedVal = NormalizeCachedPropertyValue(val);
+
+        var idxKey = IndexKey(prop, normalizedVal);
 
         if (cache.TryGetValue(idxKey, out TId? id) && id != null)
         {
@@ -75,7 +79,10 @@ public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICache
         foreach (var (prop, val) in GetCachedProperties(entity))
         {
             if (!string.IsNullOrWhiteSpace(val))
-                cache.Remove(IndexKey(prop, val));
+            {
+                var normalizedVal = NormalizeCachedPropertyValue(val);
+                cache.Remove(IndexKey(prop, normalizedVal));
+            }
         }
 
         cache.Remove(AllKey);
@@ -94,5 +101,38 @@ public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICache
             }, ct);
 
         return result ?? [];
+    }
+    public virtual void RemoveByProperty(string prop, string val)
+    {
+        var normalizedVal = NormalizeCachedPropertyValue(val);
+        cache.Remove(IndexKey(prop, normalizedVal));
+    }
+    public virtual async Task<IEnumerable<TEntity>> GetBySearchAsync(
+        string searchTerm,
+        Func<CancellationToken, Task<IEnumerable<TEntity>>> factory,
+        CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return [];
+
+        var normalizedTerm = NormalizeCachedPropertyValue(searchTerm);
+        var searchKey = $"{Prefix}:search:{normalizedTerm}";
+
+        return await cache.GetOrCreateAsync(searchKey, async (entry, token) =>
+        {
+            entry.SetOptions(ListOptions);
+
+            var results = await factory(token);
+
+            if (results != null)
+            {
+                foreach (var entity in results.Take(50))
+                {
+                    SetEntity(entity);
+                }
+            }
+
+            return results;
+        }, ct) ?? [];
     }
 }

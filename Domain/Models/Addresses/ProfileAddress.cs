@@ -15,6 +15,7 @@ public sealed class ProfileAddress
             throw new DomainValidationException("Address is required.");
 
         Id = id;
+        ProfileId = profileId;
         Address = address;
     }
     public Guid Id { get; private init; }
