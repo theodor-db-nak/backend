@@ -1,4 +1,7 @@
-﻿using Application.Profiles.Caching;
+﻿using Application.Courses.Caching;
+using Application.Courses.Contracts;
+using Application.Courses.Services;
+using Application.Profiles.Caching;
 using Application.Profiles.Contracts;
 using Application.Profiles.Services;
 using Microsoft.Extensions.Configuration;
@@ -13,8 +16,10 @@ public static class ApplicationServiceRegistrationExtensions
     {
         services.AddMemoryCache();
         services.AddSingleton<IProfileCache, ProfileCache>();
+        services.AddSingleton<ICourseCache, CourseCache>();
 
         services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<ICourseService, CourseService>();
 
         return services;
     }

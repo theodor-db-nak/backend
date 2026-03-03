@@ -5,9 +5,9 @@ using Domain.Models.ValueObjects;
 using PresentationApi.Models.Profiles;
 using PresentationAPI.Endpoints;
 
-namespace PresentationApi.EndPoints;
+namespace PresentationApi.EndPoints.Profiles;
 
-public static class MapProfilesEndpoint
+public static class MapProfileEndpoints
 {
     public static RouteGroupBuilder MapProfileEndpoint(this RouteGroupBuilder api)
     {

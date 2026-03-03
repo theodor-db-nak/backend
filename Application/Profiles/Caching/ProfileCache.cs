@@ -23,6 +23,6 @@ public sealed class ProfileCache(IMemoryCache cache) : CacheEntityBase<Profile, 
     public Task<Profile?> GetByIdAsync(Guid id, Func<CancellationToken, Task<Profile?>> factory, CancellationToken ct)
         => GetOrCreateByIdAsync(id, factory, ct);
 
-    public Task<IEnumerable<Profile>> SearchByNameRawSqlAsync(string searchTerm, Func<CancellationToken, Task<IEnumerable<Profile>>> factory, CancellationToken ct)
+    public Task<IReadOnlyList<Profile>> SearchByNameRawSqlAsync(string searchTerm, Func<CancellationToken, Task<IReadOnlyList<Profile>>> factory, CancellationToken ct)
         => GetBySearchAsync(searchTerm, factory, ct);
 }

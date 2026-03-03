@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Persistence.Models.Entities.Categories;
-using Infrastructure.Persistence.Models.Entities.Classes;
 using Infrastructure.Persistence.Models.Entities.Programs;
 
 namespace Infrastructure.Persistence.Models.Entities.Courses;
