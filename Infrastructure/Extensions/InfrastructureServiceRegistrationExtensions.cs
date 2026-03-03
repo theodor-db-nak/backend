@@ -1,5 +1,7 @@
-﻿using Domain.Models.Profiles.Repositories;
+﻿using Domain.Models.Courses.Repositories;
+using Domain.Models.Profiles.Repositories;
 using Infrastructure.Persistence.Contexts;
+using Infrastructure.Persistence.Repositories.Courses;
 using Infrastructure.Persistence.Repositories.Profiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +22,8 @@ public static class InfrastructureServiceRegistrationExtensions
                 options.UseSqlServer(configuration.GetConnectionString("CouseOnlineDb")));
       
         services.AddScoped<IProfileRepository, ProfileRepository>();
-        
+        services.AddScoped<ICourseRepository, CourseRepository>();
+
         return services;
     }
 }

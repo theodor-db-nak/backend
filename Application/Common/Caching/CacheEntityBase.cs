@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Application.Common.Caching;
 
 public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICacheEntityBase<TEntity, TId>
-
 {
     protected virtual string Prefix => typeof(TEntity).Name.ToLowerInvariant();
     protected abstract TId GetId(TEntity entity);
@@ -107,9 +106,9 @@ public abstract class CacheEntityBase<TEntity, TId>(IMemoryCache cache) : ICache
         var normalizedVal = NormalizeCachedPropertyValue(val);
         cache.Remove(IndexKey(prop, normalizedVal));
     }
-    public virtual async Task<IEnumerable<TEntity>> GetBySearchAsync(
+    public virtual async Task<IReadOnlyList<TEntity>> GetBySearchAsync(
         string searchTerm,
-        Func<CancellationToken, Task<IEnumerable<TEntity>>> factory,
+        Func<CancellationToken, Task<IReadOnlyList<TEntity>>> factory,
         CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))

@@ -95,25 +95,25 @@ public sealed class ProfileService(IProfileCache cache, IProfileRepository profi
 
     public async Task<Result<IReadOnlyList<Profile>>> GetProfilesByName(string searchTerm, CancellationToken ct = default)
     {
-        var profiles = await cache.GetBySearchAsync(searchTerm,async token => await profileRepo.SearchByNameRawSqlAsync(searchTerm, token), ct);
+        var profiles = await cache.GetBySearchAsync(searchTerm, async token => await profileRepo.SearchByNameRawSqlAsync(searchTerm, token), ct);
 
         var profileList = profiles?.ToList().AsReadOnly() ?? [];
 
         return Result<IReadOnlyList<Profile>>.Ok(profileList);
     }
 
-    public async Task<Result<Profile?>> UpdateProfileAsync(UpdateProfileInput input, CancellationToken ct)
+    public async Task<Result<Profile?>> UpdateProfileAsync(UpdateProfileInput input, CancellationToken ct = default)
     {
         if (Guid.Empty == input.Id)
             return Result<Profile?>.BadRequest($"{nameof(input.Id)} is required");
 
         var profile = await profileRepo.GetByIdAsync(input.Id, ct);
         if (profile is null)
-            return Result<Profile?>.NotFound($"Profile not found.");
+            return Result<Profile?>.NotFound("Profile not found.");
 
         profile.UpdateProfile(input.FirstName, input.LastName, input?.PhoneNumber!);
-        
-        if(input?.Address is not null)
+
+        if (input?.Address is not null)
             profile.UpdateAddress(input.Address);
 
         var updateProfile = await profileRepo.UpdateAsync(profile.Id, profile, ct);
