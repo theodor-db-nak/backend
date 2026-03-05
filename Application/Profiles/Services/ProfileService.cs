@@ -2,6 +2,8 @@
 using Application.Profiles.Contracts;
 using Application.Profiles.Factories;
 using Application.Profiles.Inputs;
+using Domain.Common.Exceptions;
+using Domain.Models.Courses;
 using Domain.Models.Profiles;
 using Domain.Models.Profiles.Repositories;
 using Domain.Models.Roles;
@@ -22,11 +24,14 @@ public sealed class ProfileService(IProfileCache cache, IProfileRepository profi
 
             var profile = ProfileFactory.Create(input);
 
-            await profileRepo.AddAsync(profile, ct);
-            
-            cache.SetEntity(profile);
+            var result = await profileRepo.AddAsync(profile, ct);
 
-            return Result<Profile?>.Ok(profile);
+            if (result is null)
+                return Result<Profile?>.BadRequest("Failed to create profile.");
+
+            cache.SetEntity(result);
+
+            return Result<Profile?>.Ok(result);
         }
         catch (Exception ex)
         {
@@ -111,10 +116,17 @@ public sealed class ProfileService(IProfileCache cache, IProfileRepository profi
         if (profile is null)
             return Result<Profile?>.NotFound("Profile not found.");
 
-        profile.UpdateProfile(input.FirstName, input.LastName, input?.PhoneNumber!);
+        try
+        {
+            profile.UpdateProfile(input.FirstName, input.LastName, input?.PhoneNumber!);
 
-        if (input?.Address is not null)
-            profile.UpdateAddress(input.Address);
+            if (input?.Address is not null)
+                profile.UpdateAddress(input.Address);
+        }
+        catch (DomainValidationException ex)
+        {
+            return Result<Profile?>.Error(ex.Message);
+        }
 
         var updateProfile = await profileRepo.UpdateAsync(profile.Id, profile, ct);
         if (updateProfile is null)

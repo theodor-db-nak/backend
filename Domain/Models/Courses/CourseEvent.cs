@@ -36,13 +36,13 @@ public class CourseEvent
 
     public void UpdateCourse(Guid newCourseId)
     {
-        Guard.TransferValidation(newCourseId, CourseId);
+        Guard.AgainstEmptyGuid(newCourseId);
 
         CourseId = newCourseId;
     }
     public void UpdateEventLocation(Guid newEventLocationId)
     {
-        Guard.TransferValidation(newEventLocationId, EventLocationId);
+        Guard.AgainstEmptyGuid(newEventLocationId);
 
         EventLocationId = newEventLocationId;
     }

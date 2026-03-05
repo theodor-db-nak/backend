@@ -2,6 +2,7 @@
 using Application.Courses.Contracts;
 using Application.Courses.Factories;
 using Application.Courses.Inputs;
+using Domain.Common.Exceptions;
 using Domain.Models.Classes;
 using Domain.Models.Courses;
 using Domain.Models.Courses.Repositories;
@@ -38,11 +39,14 @@ public sealed class CourseEventService(ICourseEventCache cache, ICourseEventRepo
         {
             var course = CourseEventFactory.Create(input);
 
-            await courseEventRepo.AddAsync(course, ct);
+            var result =  await courseEventRepo.AddAsync(course, ct);
 
-            cache.SetEntity(course);
+            if (result is null)
+                return Result<CourseEvent?>.BadRequest("Failed to create course event.");
 
-            return Result<CourseEvent?>.Ok(course);
+            cache.SetEntity(result);
+
+            return Result<CourseEvent?>.Ok(result);
         }
         catch (Exception ex)
         {
@@ -117,9 +121,17 @@ public sealed class CourseEventService(ICourseEventCache cache, ICourseEventRepo
         if (courseEvent is null)
             return Result<CourseEvent?>.NotFound("CourseEvent not found");
 
-        courseEvent.UpdateEventLocation(input.EventLocationId);
-        courseEvent.UpdateCourse(input.CourseId);
-        courseEvent.UpdateTimes(input.StartTime, input.EndTime);
+        try
+        {
+            
+            courseEvent.UpdateEventLocation(input.EventLocationId);
+            courseEvent.UpdateCourse(input.CourseId);
+            courseEvent.UpdateTimes(input.StartTime, input.EndTime);
+
+        } catch (DomainValidationException ex)
+        {
+            return Result<CourseEvent?>.Error(ex.Message);
+        }
 
         var updatedCourseEvent = await courseEventRepo.UpdateAsync(courseEvent.Id, courseEvent, ct);
 
