@@ -11,6 +11,7 @@ public static class ApiEndpoints
 
         api.MapProfileEndpoint();
         api.MapCourseEndpoint();
+        api.MapCourseEventEndpoint();
 
         return app;
     }

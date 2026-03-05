@@ -4,12 +4,16 @@ namespace Domain.Common.Validation;
 
 public static class Guard
 {
-    public static void AgainstEmptyGuid(Guid value, string message)
+    public static void AgainstEmptyGuid(Guid value, string message = "Id is required")
     {
         if (value == Guid.Empty)
             throw new DomainValidationException(message);
     }
-
+    public static void IsBeforeDate(DateTime startTime, DateTime endTime, string message)
+    {
+        if (endTime <= startTime)
+            throw new DomainValidationException(message);
+    }
     public static void AgainstInvalidStr(string value, int maxLength, string fieldName)
     {
         if (string.IsNullOrWhiteSpace(value))

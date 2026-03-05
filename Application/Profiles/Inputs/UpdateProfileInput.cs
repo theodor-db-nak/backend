@@ -1,5 +1,4 @@
-﻿using Domain.Models.Addresses;
-using Domain.Models.ValueObjects;
+﻿using Domain.Models.ValueObjects;
 
 namespace Application.Profiles.Inputs;
 

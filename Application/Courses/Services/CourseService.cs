@@ -2,6 +2,7 @@
 using Application.Courses.Contracts;
 using Application.Courses.Factories;
 using Application.Courses.Inputs;
+using Domain.Common.Exceptions;
 using Domain.Models.Courses;
 using Domain.Models.Courses.Repositories;
 
@@ -18,14 +19,16 @@ public sealed class CourseService(ICourseCache cache, ICourseRepository courseRe
             if (existing != null)
                 return Result<Course?>.Error("A course with this name already exists.");
 
-
             var course = CourseFactory.Create(input);
 
-            await courseRepo.AddAsync(course, ct);
+            var result = await courseRepo.AddAsync(course, ct);
 
-            cache.SetEntity(course);
+            if (result is null)
+                return Result<Course?>.BadRequest("Failed to create course.");
 
-            return Result<Course?>.Ok(course);
+            cache.SetEntity(result);
+
+            return Result<Course?>.Ok(result);
         }
         catch (Exception ex)
         {
@@ -89,9 +92,15 @@ public sealed class CourseService(ICourseCache cache, ICourseRepository courseRe
 
         var course = await courseRepo.GetByIdAsync(input.Id, ct);
         if (course is null)
-            return Result<Course?>.NotFound("Coures not found");
+            return Result<Course?>.NotFound("Course not found");
 
+        try
+        {
         course.Rename(input.Name);
+        } catch (DomainValidationException ex)
+        {
+            return Result<Course?>.BadRequest(ex.Message);
+        }
 
         var updatedCourse = await courseRepo.UpdateAsync(course.Id, course, ct);
 

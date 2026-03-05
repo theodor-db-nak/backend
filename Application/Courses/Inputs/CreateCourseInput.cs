@@ -1,7 +1,5 @@
 ﻿namespace Application.Courses.Inputs;
-
-public sealed record UpdateCourseInput
+public sealed record CreateCourseInput
 (
-    Guid Id,
     string Name
 );

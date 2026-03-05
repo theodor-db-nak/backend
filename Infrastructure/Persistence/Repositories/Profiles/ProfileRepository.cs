@@ -1,6 +1,6 @@
-﻿using Domain.Models.Addresses;
-using Domain.Models.Classes;
+﻿using Domain.Models.Classes;
 using Domain.Models.Courses;
+using Domain.Models.Locations;
 using Domain.Models.Profiles;
 using Domain.Models.Profiles.Repositories;
 using Domain.Models.Roles;
@@ -218,7 +218,7 @@ public sealed class ProfileRepository(CourseOnlineDbContext context) : Repositor
 
         foreach (var cp in entity.ClassProfiles)
             if (cp.Class != null)
-                profile.AddClass(new Class(cp.Class.Id, cp.Class.Name, cp.Class.Seats));
+                profile.AddClass(new Class(cp.Class.Id, cp.Class.ProgramId, cp.Class.ClassLocationId, cp.Class.Name, cp.Class.Seats));
 
         foreach (var cp in entity.CourseProfiles)
             if (cp.Course != null)

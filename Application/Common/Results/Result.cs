@@ -1,7 +1,7 @@
 ﻿namespace Application.Common.Results;
 
 public sealed record Result(
-    bool Successs,
+    bool Success,
     ErrorTypes? ErrorType = null,
     string? ErrorMessage = null)
 {

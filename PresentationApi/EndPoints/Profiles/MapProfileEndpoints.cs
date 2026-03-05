@@ -116,7 +116,7 @@ public static class MapProfileEndpoints
             return Results.BadRequest("Id is required");
 
         var result = await service.DeleteProfileAsync(id, ct);
-        if(!result.Successs)
+        if(!result.Success)
             return result.ToHttpResult();
 
         return Results.NoContent();

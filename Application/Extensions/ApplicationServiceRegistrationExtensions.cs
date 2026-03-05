@@ -17,9 +17,11 @@ public static class ApplicationServiceRegistrationExtensions
         services.AddMemoryCache();
         services.AddSingleton<IProfileCache, ProfileCache>();
         services.AddSingleton<ICourseCache, CourseCache>();
+        services.AddSingleton<ICourseEventCache, CourseEventCache>();
 
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ICourseEventService, CourseEventService>();
 
         return services;
     }

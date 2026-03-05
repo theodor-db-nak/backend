@@ -1,5 +1,5 @@
 ﻿using Application.Profiles.Inputs;
-using Domain.Models.Addresses;
+using Domain.Models.Locations;
 using Domain.Models.Profiles;
 using Domain.Models.ValueObjects;
 
