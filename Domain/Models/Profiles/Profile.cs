@@ -1,8 +1,8 @@
 ﻿using Domain.Common.Extensions;
 using Domain.Common.Validation;
-using Domain.Models.Addresses;
 using Domain.Models.Classes;
 using Domain.Models.Courses;
+using Domain.Models.Locations;
 using Domain.Models.Roles;
 using Domain.Models.ValueObjects;
 

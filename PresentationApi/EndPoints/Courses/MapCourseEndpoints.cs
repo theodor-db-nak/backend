@@ -87,7 +87,7 @@ namespace PresentationApi.EndPoints.Courses
 
             var result = await service.DeleteCourseAsync(id, ct);
 
-            if(!result.Successs) 
+            if(!result.Success) 
                 return result.ToHttpResult();
 
             return Results.NoContent();

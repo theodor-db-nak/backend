@@ -18,7 +18,6 @@ public sealed class CourseService(ICourseCache cache, ICourseRepository courseRe
             if (existing != null)
                 return Result<Course?>.Error("A course with this name already exists.");
 
-
             var course = CourseFactory.Create(input);
 
             await courseRepo.AddAsync(course, ct);
@@ -89,7 +88,7 @@ public sealed class CourseService(ICourseCache cache, ICourseRepository courseRe
 
         var course = await courseRepo.GetByIdAsync(input.Id, ct);
         if (course is null)
-            return Result<Course?>.NotFound("Coures not found");
+            return Result<Course?>.NotFound("Course not found");
 
         course.Rename(input.Name);
 

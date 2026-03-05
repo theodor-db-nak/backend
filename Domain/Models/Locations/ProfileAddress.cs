@@ -2,7 +2,7 @@
 using Domain.Common.Validation;
 using Domain.Models.ValueObjects;
 
-namespace Domain.Models.Addresses;
+namespace Domain.Models.Locations;
 
 public sealed class ProfileAddress
 {

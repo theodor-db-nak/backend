@@ -5,9 +5,11 @@ namespace Domain.Models.Classes;
 
 public sealed class Class
 {
-    public Class(Guid id, string name, int seats)
+    public Class(Guid id, Guid programId, Guid classLocationId, string name, int seats)
     {
         Guard.AgainstEmptyGuid(id, "Id cannot be empty.");
+        Guard.AgainstEmptyGuid(programId, "Program id cannot be empty.");
+        Guard.AgainstEmptyGuid(classLocationId, "Class location id cannot be empty.");
 
         Guard.AgainstInvalidStr(name, 100, "Name");
         
@@ -16,6 +18,8 @@ public sealed class Class
 
         Id = id;
         Name = name.Trim();
+        ProgramId = programId;
+        ClassLocationId = classLocationId;
         Seats = seats;
     }
     public Guid Id { get; private init; }
@@ -30,7 +34,7 @@ public sealed class Class
 
         Name = newName.Trim();
     }
-
+    
     public void UpdateSeats(int newSeats)
     {
         if (newSeats < 0)
@@ -51,7 +55,4 @@ public sealed class Class
 
         ClassLocationId = newClassLocationId;
     }
-
-
-
 }

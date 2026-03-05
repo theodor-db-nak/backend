@@ -23,6 +23,7 @@ public static class InfrastructureServiceRegistrationExtensions
       
         services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<ICourseEventRepository, CourseEventRepository>();
 
         return services;
     }
